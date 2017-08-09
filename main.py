@@ -19,8 +19,6 @@ def readPly(filename):
     for item in content:
         if not foundHeaderEnd:
             header.append(item)
-            #target.write(item)
-            #print(item, end='')
             if item == "end_header\n":
                 foundHeaderEnd = True
         else:
@@ -28,8 +26,6 @@ def readPly(filename):
             zPoints.append(float(value[2]))
             if float(value[2]) > -1.50 and float(value[2]) < -1.0:
                 points.append(item)
-    
-    print(len(points))
         
     #modify header
     for idx in range(len(header)):
@@ -37,10 +33,6 @@ def readPly(filename):
             elements = header[idx].split(' ')
             elements[2] = str(len(points)) + '\n'
             header[idx] = elements[0] + ' ' + elements[1] + ' ' + elements[2]
-            print(header[idx])
-            
-    print(header)        
-    print(len(zPoints))
     
     #write header
     for item in header:
