@@ -39,32 +39,38 @@ class Grid:
         return position + '\n' + neighbors
     
     def cal_dist(self, x2, y2):
-        return math.sqrt(pow((x2 - self.x), 2) + pow((y2 - self.y), 2))
+        dist = math.sqrt(pow((x2 - self.x), 2) + pow((y2 - self.y), 2))
+        print("DIST: " + str(dist))
+        return dist
     
     
     def cal_direct(self, x2, y2):
         if(abs(x2 - self.x) > abs(y2 - self.y)): #east or west
             if x2 > self.x: #east
-                self.e = Grid(self.x + 0.5, self.y)
-                self.e.w = self
+                if self.e == None:
+                    self.e = Grid(self.x + 0.5, self.y)
+                    self.e.w = self
                 newGrid = self.e
-                print("newGrid : e" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
+                print("nowGrid : e" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
             else: #west
-                self.w = Grid(self.x - 0.5, self.y)
-                self.w.e = self
+                if self.w == None:
+                    self.w = Grid(self.x - 0.5, self.y)
+                    self.w.e = self
                 newGrid = self.w
-                print("newGrid : w" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
+                print("nowGrid : w" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
         else: #north or south
             if y2 > self.y: #north
-                self.n = Grid(self.x, self.y + 0.5)
-                self.n.s = self
+                if self.n == None:
+                    self.n = Grid(self.x, self.y + 0.5)
+                    self.n.s = self
                 newGrid = self.n
-                print("newGrid : n" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
+                print("nowGrid : n" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
             else: #south
-                self.s = Grid(self.x, self.y - 0.5)
-                self.s.n = self
+                if self.s == None:
+                    self.s = Grid(self.x, self.y - 0.5)
+                    self.s.n = self
                 newGrid = self.s
-                print("newGrid : s" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
+                print("nowGrid : s" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
         return newGrid
 
 class GridMap:
@@ -89,10 +95,19 @@ class GridMap:
                 if nowGrid not in self.gridMap:
                     self.gridMap.append(nowGrid)
             elif dist > MAX_DIST:
+                print("EXCEED MAX_DIST")
                 closestGrid = self.findClosestGrid(grid.x, grid.y)
-                if closestGrid == None:
+                dist = closestGrid.cal_dist(grid.x, grid.y)
+                if dist > GRID_SIZE:
                     #expend
-                    pass
+                    nowGrid = closestGrid
+                    print("---start expend---")
+                    while dist > MAX_DIST:
+                        nowGrid = nowGrid.cal_direct(grid.x, grid.y)
+                        if nowGrid not in self.gridMap:
+                            self.gridMap.append(nowGrid)
+                        dist = nowGrid.cal_dist(grid.x, grid.y)
+                    print("---end expend---")
                 else:
                     nowGrid = closestGrid.cal_direct(grid.x, grid.y)
                     if nowGrid not in self.gridMap:
@@ -110,6 +125,7 @@ class GridMap:
         self.grids.append(Grid)
         
     def findClosestGrid(self, x2, y2):
+        print("---Find Closest Points Start---")
         minDist = 999999
         minDistGrid = None
         
@@ -119,9 +135,16 @@ class GridMap:
                 minDist = dist
                 minDistGrid = grid
                 
-        if minDist > MAX_DIST:
-            minDistGrid = None
+        if minDistGrid == None:
+            print("Not Found")
+            return self
         
+        if minDist > MAX_DIST:
+            print("Not Match Grid")
+
+        
+        print("Shortest Dist: " + str(minDist) + " , (" + str(minDistGrid.x) +"," + str(minDistGrid.y) + ")")
+        print("---Find Closest Points End---")
         return minDistGrid
             
 #    def buildMap(point_cloud):
