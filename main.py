@@ -23,7 +23,7 @@ source.close
 print(grids)
 print("Total Grids", len(grids))
 
-gMap = GridMap.GridMap(grids)
+gMap = GridMap.GridMap(grids, dataType='g')
 
 x = []
 y = []
@@ -39,8 +39,8 @@ for grid in gMap.gridMap:
     
 plt.figure(figsize=(5, 5))
 plt.axis('equal')
-plt.scatter(x, y, c="green", s=5)
-plt.scatter(gx, gy, c="red", s=2)
+plt.scatter(x, y, c="green", s=8)
+plt.scatter(gx, gy, c="red", s=1)
 
 ###extract gripmap from 2D point cloud
 #filename = "target.txt"

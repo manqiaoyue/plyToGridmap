@@ -40,7 +40,7 @@ class Grid:
     
     def cal_dist(self, x2, y2):
         dist = math.sqrt(pow((x2 - self.x), 2) + pow((y2 - self.y), 2))
-        print("DIST: " + str(dist))
+        #print("DIST: " + str(dist))
         return dist
     
     
@@ -72,9 +72,27 @@ class Grid:
                 newGrid = self.s
                 print("nowGrid : s" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
         return newGrid
+    
+    def cal_direct_for_grids(self, grid2):
+        if(abs(grid2.x - self.x) > abs(grid2.y - self.y)): #east or west
+            if grid2.x > self.x: #east
+                self.e = grid2
+                #print("Link to east grid")
+            else: #west
+                self.w = grid2
+                #print("Link to west grid")
+        else: #north or south
+            if grid2.y > self.y: #north
+                self.n = grid2
+                #print("Link to north grid")
+            else: #south
+                self.s = grid2
+                #print("Link to south grid")
 
 class GridMap:
-    def __init__(self, point_cloud):
+    def __init__(self, point_cloud, dataType='p'):
+        ###dataType = 'p' : point cloud
+        ###dataType = 'g' : grid map
         if len(point_cloud) < 1 or len(point_cloud[0]) < 2:
             return
         self.grids = []
@@ -85,35 +103,47 @@ class GridMap:
             newGrid = Grid(point[0], point[1])
             self.addGrid(newGrid)
             
-        #build map
-        nowGrid = self.grids[0]
-        self.gridMap.append(nowGrid)    
-        for grid in self.grids:
-            dist = nowGrid.cal_dist(grid.x, grid.y)
-            if  dist > GRID_SIZE and dist < MAX_DIST:
-                nowGrid = nowGrid.cal_direct(grid.x, grid.y)
-                if nowGrid not in self.gridMap:
-                    self.gridMap.append(nowGrid)
-            elif dist > MAX_DIST:
-                print("EXCEED MAX_DIST")
-                closestGrid = self.findClosestGrid(grid.x, grid.y)
-                dist = closestGrid.cal_dist(grid.x, grid.y)
-                if dist > GRID_SIZE:
-                    #expend
-                    nowGrid = closestGrid
-                    print("---start expend---")
-                    while dist > MAX_DIST:
-                        nowGrid = nowGrid.cal_direct(grid.x, grid.y)
-                        if nowGrid not in self.gridMap:
-                            self.gridMap.append(nowGrid)
-                        dist = nowGrid.cal_dist(grid.x, grid.y)
-                    print("---end expend---")
-                else:
-                    nowGrid = closestGrid.cal_direct(grid.x, grid.y)
+        #turn 2D point cloud to gridmap
+        if dataType == 'p':
+            #In this scope grid = point cloud , just differ on data structure
+            nowGrid = self.grids[0]
+            self.gridMap.append(nowGrid)    
+            for grid in self.grids:
+                dist = nowGrid.cal_dist(grid.x, grid.y)
+                if  dist > GRID_SIZE and dist < MAX_DIST:
+                    nowGrid = nowGrid.cal_direct(grid.x, grid.y)
                     if nowGrid not in self.gridMap:
                         self.gridMap.append(nowGrid)
-        
-        
+                elif dist > MAX_DIST:
+                    print("EXCEED MAX_DIST")
+                    closestGrid = self.findClosestGrid(grid.x, grid.y)
+                    dist = closestGrid.cal_dist(grid.x, grid.y)
+                    if dist > GRID_SIZE:
+                        #expend
+                        nowGrid = closestGrid
+                        print("---start expend---")
+                        while dist > MAX_DIST:
+                            nowGrid = nowGrid.cal_direct(grid.x, grid.y)
+                            if nowGrid not in self.gridMap:
+                                self.gridMap.append(nowGrid)
+                            dist = nowGrid.cal_dist(grid.x, grid.y)
+                        print("---end expend---")
+                    else:
+                        nowGrid = closestGrid.cal_direct(grid.x, grid.y)
+                        if nowGrid not in self.gridMap:
+                            self.gridMap.append(nowGrid)
+        elif dataType == 'g':
+            #In this scope grid is read from gridmap
+            for grid in self.grids:
+                for grid2 in self.grids:
+                    if grid2 == grid:
+                        continue
+                    if grid.e == None or grid.w == None or grid.n == None or grid.s == None:
+                        dist = grid.cal_dist(grid2.x, grid2.y)
+                        if dist < 0.6:
+                            grid.cal_direct_for_grids(grid2)
+            self.gridMap = self.grids
+                    
     
     def __str__(self):
         string = ""
