@@ -7,31 +7,37 @@ class Grid:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        
         self.n = None
         self.e = None
         self.s = None
         self.w = None
         
+        #f(n) = g(n) + h(n)
+        self.f = -1
+        self.g = -1
+        self.h = -1
+        
     def __str__(self):
         position = "X:" + str(self.x) + " , Y:" + str(self.y)
         
         if self.n:
-            n = '(' + str(self.n.x) + ', ' +str(self.n.y) + ') '
+            n = 'N(' + str(self.n.x) + ', ' +str(self.n.y) + ') '
         else:
             n = "None "
             
         if self.e:
-            e = '(' + str(self.e.x) + ', ' +str(self.e.y) + ') '
+            e = 'E(' + str(self.e.x) + ', ' +str(self.e.y) + ') '
         else:
             e = "None "
             
         if self.s:
-            s = '(' + str(self.s.x) + ', ' +str(self.s.y) + ') '
+            s = 'S(' + str(self.s.x) + ', ' +str(self.s.y) + ') '
         else:
             s = "None "
             
         if self.w:
-            w = '(' + str(self.w.x) + ', ' +str(self.w.y) + ')'
+            w = 'W(' + str(self.w.x) + ', ' +str(self.w.y) + ')'
         else:
             w = "None"
             

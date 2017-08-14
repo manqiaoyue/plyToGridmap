@@ -2,45 +2,133 @@
 
 from matplotlib import pyplot as plt
 import numpy as np
+import copy
 
 import ProcessPly as pp
 import GridMap
 
-###a star algorithm
-source = open("gridmap.txt", 'r')
+###a star
+def find_min_f(grids):
+    minGrid = grids[0]
+    
+    for grid in grids:
+        if grid.f < minGrid.f:
+            minGrid = grid
+    
+    return minGrid
 
-content = source.readlines()
-grids = []
+def search_neighbor(current, closed_list):
+    if current.n == None or current.n in closed_list:
+        pass
+    else:
+        
+        
 
-for item in content:
-    values = item.split(' ')
-    if len(values) < 2:
-        break
-    grids.append([float(values[0]), float(values[1])])
+def a_star(grids, start, goal):
+    closed_list = []
+    open_list = [start] 
+    
+    #start g(n) = 0
+    start.f = 0
+    
+    bool find_goal = False
+    
+    while not find_goal:
+        current = find_min_f(open_list)
+        
+        if current.cal_dist(goal.x, goal.y) < GridMap.GRID_SIZE:
+            return
+        
+        search_neighbor(current, closed_list)
+        
+        
+        
+        
+    
 
-source.close
-
-print(grids)
-print("Total Grids", len(grids))
-
-gMap = GridMap.GridMap(grids, dataType='g')
-
+points = []
 x = []
 y = []
-for grid in grids:
-    x.append(grid[0])
-    y.append(grid[1])
+
+for i in range(10):
+    for j in range(10):
+        points.append([j, i])
+        x.append(j)
+        y.append(i)
+    
+
+start = [0, 0]
+goal = [9, 9]
+
+
+gMap = GridMap.GridMap(points)
+print("-----------------------------------------------------")
+for i in range(50):
+    print(i, gMap.gridMap[i])
     
 gx = []
 gy = []
-for grid in gMap.gridMap:
-    gx.append(grid.x)
-    gy.append(grid.y)
+for i in range(len(gMap.gridMap)):
+    gx.append(gMap.gridMap[i].x)
+    gy.append(gMap.gridMap[i].y)
     
+#plot
 plt.figure(figsize=(5, 5))
-plt.axis('equal')
-plt.scatter(x, y, c="green", s=8)
-plt.scatter(gx, gy, c="red", s=1)
+plt.axes = 'equal'
+plt.scatter(x, y, c='green', s=5)
+plt.scatter(gx, gy, c='red', s=2)
+
+
+g1 = GridMap.Grid(0, 0)
+g2 = GridMap.Grid(0, 0)
+s = set()
+s.update({g1, g2})
+print(s)
+print(g1 in s)
+print(s{g1})
+
+
+
+
+
+############### link grids ###################
+#source = open("gridmap.txt", 'r')
+#
+#content = source.readlines()
+#grids = []
+#
+#for item in content:
+#    values = item.split(' ')
+#    if len(values) < 2:
+#        break
+#    grids.append([float(values[0]), float(values[1])])
+#
+#source.close
+#
+#print(grids)
+#print("Total Grids", len(grids))
+#
+#gMap = GridMap.GridMap(grids, dataType='g')
+#
+#x = []
+#y = []
+#for grid in grids:
+#    x.append(grid[0])
+#    y.append(grid[1])
+#    
+#gx = []
+#gy = []
+#for grid in gMap.gridMap:
+#    gx.append(grid.x)
+#    gy.append(grid.y)
+#    
+#plt.figure(figsize=(5, 5))
+#plt.axis('equal')
+#plt.scatter(x, y, c="green", s=8)
+#plt.scatter(gx, gy, c="red", s=1)
+#
+#print(gMap.gridMap[0].n)
+#print(gMap.gridMap[0].n.s)
 
 ###extract gripmap from 2D point cloud
 #filename = "target.txt"
@@ -99,7 +187,7 @@ plt.scatter(gx, gy, c="red", s=1)
 #target.close()
 
 
-###show point cloud
+############### show point cloud ###############
 #filename = "target.txt"
 #source = open(filename, 'r')
 #
@@ -135,7 +223,7 @@ plt.scatter(gx, gy, c="red", s=1)
 
 
 
-###process ply file
+############### process ply file ###############
 #filename = "file.txt"
 #zPoints = pp.readPly(filename)
 #
