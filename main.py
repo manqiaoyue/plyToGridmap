@@ -17,29 +17,82 @@ def find_min_f(grids):
     
     return minGrid
 
-def search_neighbor(current, closed_list):
+def cal_f(n_grid, goal):
+    return abs(n_grid.x - goal.x) + abs(n_grid.y - goal.y)
+
+def cal_g(n_grid, neighbor_grid):
+    dist = neighbor_grid.g + 0.5 #0.5 is GRI_SIZE
+    if dist < n_grid.g:
+        n_grid.g = dist
+        n_grid.f = n_grid.g + n_grid.h
+    
+
+def search_neighbor(current, open_list, closed_list):
     if current.n == None or current.n in closed_list:
         pass
     else:
+        n_to_neighbor_dist = cal_g(current, current.n)
+        if n_to_neighbor_dist < current.n.g or current.n not in open_list:
+            current.n.g = n_to_neighbor_dist
+            current.n.f = cal_f(current.n, goal)
+            current.n.parent = current
+        if current.n is not in open_list:
+            open_list.append(current.n)
         
+    if current.e == None or current.e in closed_list:
+        pass
+    else:
+        n_to_neighbor_dist = cal_g(current, current.e)
+        if n_to_neighbor_dist < current.e.g or current.e not in open_list:        
+            current.e.g = n_to_neighbor_dist
+            current.e.f = cal_f(current.e, goal)
+            current.e.parent = current
+        if current.e is not in open_list:
+            open_list.append(current.e)
+        
+    if current.s == None or current.s in closed_list:
+        pass
+    else:
+        n_to_neighbor_dist = cal_g(current, current.s)
+        if n_to_neighbor_dist < current.s.g or current.s not in open_list:        
+            current.s.g = n_to_neighbor_dist
+            current.s.f = cal_f(current.s, goal)
+            current.s.parent = current
+        if current.s is not in open_list:
+            open_list.append(current.s)
+        
+    if current.w == None or current.w in closed_list:
+        pass
+    else:
+        n_to_neighbor_dist = cal_g(current, current.w)
+        if n_to_neighbor_dist < current.w.g or current.w not in open_list:        
+            current.w.g = n_to_neighbor_dist
+            current.w.f = cal_f(current.w, goal)
+            current.w.parent = current
+        if current.w is not in open_list:
+            open_list.append(current.w)
         
 
 def a_star(grids, start, goal):
     closed_list = []
-    open_list = [start] 
+    open_list = []
     
-    #start g(n) = 0
-    start.f = 0
+    start.g = 0
+    start.h = cal_f(start, goal)
+    start.f = start.g + start.h
+    open_list.append(start)
     
     bool find_goal = False
     
     while not find_goal:
         current = find_min_f(open_list)
+        #remove current from open
+        #add current to closed
         
         if current.cal_dist(goal.x, goal.y) < GridMap.GRID_SIZE:
             return
         
-        search_neighbor(current, closed_list)
+        search_neighbor(current, open_list, closed_list)
         
         
         

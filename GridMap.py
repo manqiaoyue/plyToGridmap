@@ -18,6 +18,8 @@ class Grid:
         self.g = -1
         self.h = -1
         
+        self.parent = None
+        
     def __str__(self):
         position = "X:" + str(self.x) + " , Y:" + str(self.y)
         
