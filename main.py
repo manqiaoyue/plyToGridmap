@@ -97,8 +97,29 @@ def a_star(grids, start, goal):
         
         
         
-        
-    
+#points = [[0, 0], [0.3, 0], [0.6, 0], [1.9, 0], [0, 0.3], [0, 2.9], [-5, -7]]
+#x = []
+#y = []
+#
+#for point in points:
+#    x.append(point[0])
+#    y.append(point[1])
+#    
+#gMap = GridMap.GridMap(points)
+#
+#gx = []
+#gy = []
+#
+#for point in gMap.points:
+#    gx.append(point[0])
+#    gy.append(point[1])
+#
+##plot
+##plt.figure(figsize=(5, 5))
+#plt.axes = 'equal'
+#plt.scatter(x, y, c='green', s=6)
+#plt.scatter(gx, gy, c='red', s=3)
+
 
 points = []
 x = []
@@ -109,38 +130,23 @@ for i in range(100):
         points.append([j/10, i/10])
         x.append(j/10)
         y.append(i/10)
-    
-print(x)
-
-start = [0.0, 0.0]
-goal = [9.9, 9.9]
 
 
 gMap = GridMap.GridMap(points)
 print("-----------------------------------------------------")
-for i in range(100):
-    print(i, gMap.gridMap[i])
-    
+print("GRID POINTS:", len(gMap.points))
 gx = []
 gy = []
-for i in range(len(gMap.gridMap)):
-    gx.append(gMap.gridMap[i].x)
-    gy.append(gMap.gridMap[i].y)
+for i in range(len(gMap.points)):
+    gx.append(gMap.points[i][0])
+    gy.append(gMap.points[i][1])
     
-##plot
+###plot
 plt.figure(figsize=(5, 5))
 plt.axes = 'equal'
-plt.scatter(x, y, c='green', s=3)
+plt.scatter(x, y, c='green', s=1)
 plt.scatter(gx, gy, c='red', s=2)
 
-#
-#
-#g1 = GridMap.Grid(0, 0)
-#g2 = GridMap.Grid(0, 0)
-#s = set()
-#s.update({g1, g2})
-#print(s)
-#print(g1 in s)
 
 
 
