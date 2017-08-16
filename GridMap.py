@@ -81,6 +81,7 @@ class Grid:
                 print("nowGrid : s" + '(' + str(newGrid.x) + ',' + str(newGrid.y) + ')')
         return newGrid
     
+    
     def cal_direct_for_grids(self, grid2):
         if(abs(grid2.x - self.x) > abs(grid2.y - self.y)): #east or west
             if grid2.x > self.x: #east
@@ -96,6 +97,8 @@ class Grid:
             else: #south
                 self.s = grid2
                 #print("Link to south grid")
+        #if newGrid find other link
+        
 
 class GridMap:
     def __init__(self, point_cloud, dataType='p'):

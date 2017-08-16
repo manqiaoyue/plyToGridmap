@@ -7,7 +7,8 @@ import copy
 import ProcessPly as pp
 import GridMap
 
-###a star
+
+############### A star ###################
 def find_min_f(grids):
     minGrid = grids[0]
     
@@ -36,7 +37,7 @@ def search_neighbor(current, open_list, closed_list):
             current.n.g = n_to_neighbor_dist
             current.n.f = cal_f(current.n, goal)
             current.n.parent = current
-        if current.n is not in open_list:
+        if current.n not in open_list:
             open_list.append(current.n)
         
     if current.e == None or current.e in closed_list:
@@ -47,7 +48,7 @@ def search_neighbor(current, open_list, closed_list):
             current.e.g = n_to_neighbor_dist
             current.e.f = cal_f(current.e, goal)
             current.e.parent = current
-        if current.e is not in open_list:
+        if current.e not in open_list:
             open_list.append(current.e)
         
     if current.s == None or current.s in closed_list:
@@ -58,7 +59,7 @@ def search_neighbor(current, open_list, closed_list):
             current.s.g = n_to_neighbor_dist
             current.s.f = cal_f(current.s, goal)
             current.s.parent = current
-        if current.s is not in open_list:
+        if current.s not in open_list:
             open_list.append(current.s)
         
     if current.w == None or current.w in closed_list:
@@ -69,7 +70,7 @@ def search_neighbor(current, open_list, closed_list):
             current.w.g = n_to_neighbor_dist
             current.w.f = cal_f(current.w, goal)
             current.w.parent = current
-        if current.w is not in open_list:
+        if current.w not in open_list:
             open_list.append(current.w)
         
 
@@ -82,7 +83,7 @@ def a_star(grids, start, goal):
     start.f = start.g + start.h
     open_list.append(start)
     
-    bool find_goal = False
+    find_goal = False
     
     while not find_goal:
         current = find_min_f(open_list)
@@ -103,20 +104,21 @@ points = []
 x = []
 y = []
 
-for i in range(10):
-    for j in range(10):
-        points.append([j, i])
-        x.append(j)
-        y.append(i)
+for i in range(100):
+    for j in range(100):
+        points.append([j/10, i/10])
+        x.append(j/10)
+        y.append(i/10)
     
+print(x)
 
-start = [0, 0]
-goal = [9, 9]
+start = [0.0, 0.0]
+goal = [9.9, 9.9]
 
 
 gMap = GridMap.GridMap(points)
 print("-----------------------------------------------------")
-for i in range(50):
+for i in range(100):
     print(i, gMap.gridMap[i])
     
 gx = []
@@ -125,20 +127,23 @@ for i in range(len(gMap.gridMap)):
     gx.append(gMap.gridMap[i].x)
     gy.append(gMap.gridMap[i].y)
     
-#plot
+##plot
 plt.figure(figsize=(5, 5))
 plt.axes = 'equal'
-plt.scatter(x, y, c='green', s=5)
+plt.scatter(x, y, c='green', s=3)
 plt.scatter(gx, gy, c='red', s=2)
 
+#
+#
+#g1 = GridMap.Grid(0, 0)
+#g2 = GridMap.Grid(0, 0)
+#s = set()
+#s.update({g1, g2})
+#print(s)
+#print(g1 in s)
 
-g1 = GridMap.Grid(0, 0)
-g2 = GridMap.Grid(0, 0)
-s = set()
-s.update({g1, g2})
-print(s)
-print(g1 in s)
-print(s{g1})
+
+
 
 
 
@@ -182,7 +187,7 @@ print(s{g1})
 #
 #print(gMap.gridMap[0].n)
 #print(gMap.gridMap[0].n.s)
-
+#
 ###extract gripmap from 2D point cloud
 #filename = "target.txt"
 #source = open(filename, 'r')
@@ -238,6 +243,9 @@ print(s{g1})
 #
 #source.close()
 #target.close()
+
+
+
 
 
 ############### show point cloud ###############
