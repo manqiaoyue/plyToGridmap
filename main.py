@@ -97,55 +97,55 @@ def a_star(grids, start, goal):
         
         
         
-#points = [[0, 0], [0.3, 0], [0.6, 0], [1.9, 0], [0, 0.3], [0, 2.9], [-5, -7]]
-#x = []
-#y = []
-#
-#for point in points:
-#    x.append(point[0])
-#    y.append(point[1])
-#    
-#gMap = GridMap.GridMap(points)
-#
-#gx = []
-#gy = []
-#
-#for point in gMap.points:
-#    gx.append(point[0])
-#    gy.append(point[1])
-#
-##plot
-##plt.figure(figsize=(5, 5))
-#plt.axes = 'equal'
-#plt.scatter(x, y, c='green', s=6)
-#plt.scatter(gx, gy, c='red', s=3)
-
-
-points = []
+points = [[0, 0], [0.3, 0], [0.6, 0], [1.9, 0], [0, 0.3], [0, 2.9], [-5, -7]]
 x = []
 y = []
 
-for i in range(100):
-    for j in range(100):
-        points.append([j/10, i/10])
-        x.append(j/10)
-        y.append(i/10)
-
-
+for point in points:
+    x.append(point[0])
+    y.append(point[1])
+    
 gMap = GridMap.GridMap(points)
-print("-----------------------------------------------------")
-print("GRID POINTS:", len(gMap.points))
+
 gx = []
 gy = []
-for i in range(len(gMap.points)):
-    gx.append(gMap.points[i][0])
-    gy.append(gMap.points[i][1])
-    
-###plot
-plt.figure(figsize=(5, 5))
+
+for point in gMap.points:
+    gx.append(point[0])
+    gy.append(point[1])
+
+#plot
+#plt.figure(figsize=(5, 5))
 plt.axes = 'equal'
-plt.scatter(x, y, c='green', s=1)
-plt.scatter(gx, gy, c='red', s=2)
+plt.scatter(x, y, c='green', s=6)
+plt.scatter(gx, gy, c='red', s=3)
+
+
+#points = []
+#x = []
+#y = []
+#
+#for i in range(100):
+#    for j in range(100):
+#        points.append([j/10, i/10])
+#        x.append(j/10)
+#        y.append(i/10)
+#
+#
+#gMap = GridMap.GridMap(points)
+#print("-----------------------------------------------------")
+#print("GRID POINTS:", len(gMap.points))
+#gx = []
+#gy = []
+#for i in range(len(gMap.points)):
+#    gx.append(gMap.points[i][0])
+#    gy.append(gMap.points[i][1])
+#    
+####plot
+#plt.figure(figsize=(5, 5))
+#plt.axes = 'equal'
+#plt.scatter(x, y, c='green', s=1)
+#plt.scatter(gx, gy, c='red', s=2)
 
 
 
