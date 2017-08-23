@@ -1,7 +1,7 @@
 import math
 
-GRID_SIZE = 0.5
-MAX_DIST = 0.8
+GRID_SIZE = 0.25
+MAX_DIST = 0.4
 
 class Grid:
     def __init__(self, x, y):
@@ -80,7 +80,7 @@ class GridMap:
                     #print("end expend------")
                 nowPoint = closestPoint
 
-        self.link_grids()
+        #self.link_grids()
         
         for grid in self.gridmap:
             position = '(' + str(grid.x) + ', ' + str(grid.y) + ')\n'
@@ -145,17 +145,17 @@ class GridMap:
     def cal_direct(self, p1, p2):
         if(abs(p2[0] - p1[0]) > abs(p2[1] - p1[1])): #east or west
             if p2[0] > p1[0]: #east
-                newPoint = [p1[0] + 0.5, p1[1]]
+                newPoint = [p1[0] + GRID_SIZE, p1[1]]
                 #print("newPoint : e" + '(' + str(newPoint[0]) + ',' + str(newPoint[1]) + ')')
             else: #west
-                newPoint = [p1[0] - 0.5, p1[1]]
+                newPoint = [p1[0] - GRID_SIZE, p1[1]]
                 #print("newPoint : w" + '(' + str(newPoint[0]) + ',' + str(newPoint[1]) + ')')
         else: #north or south
             if p2[1] > p1[1]: #north
-                newPoint = [p1[0], p1[1] + 0.5]
+                newPoint = [p1[0], p1[1] + GRID_SIZE]
                 #print("newPoint : n" + '(' + str(newPoint[0]) + ',' + str(newPoint[1]) + ')')
             else: #south
-                newPoint = [p1[0], p1[1] - 0.5]
+                newPoint = [p1[0], p1[1] - GRID_SIZE]
                 #print("newPoint : s" + '(' + str(newPoint[0]) + ',' + str(newPoint[1]) + ')')
         return newPoint
     
